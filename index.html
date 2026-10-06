@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#111111">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Marquisat">
+<meta name="description" content="Agenda des événements du Marquisat - Hautes-Pyrénées">
+
+<!-- Manifest PWA -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Déclaration des icônes -->
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" href="icon-512.png">
+
+<title>Agenda du Marquisat</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rouge: #CC0000;
+    --rouge-clair: #ff4444;
+    --rouge-pale: #2a1010;
+    --rouge-bordure: #5c1c1c;
+    --rouge-texte: #ff5555;
+    --texte-fort: #ffffff;
+    --noir: #111111;
+    --gris-fond: #060606;
+    --gris-carte: #2a2a2a;
+    --gris-texte: #f0f0f0;
+    --gris-secondaire: #a8a8a8;
+    --gris-bordure: #4a4a4a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html { color-scheme: dark; background: var(--gris-fond); }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--gris-fond);
+    color: var(--gris-texte);
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #000;
+    padding: 14px 16px 12px;
+    border-bottom: 3px solid var(--rouge);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-row { display: flex; align-items: center; gap: 10px; }
+  .logo {
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo svg { width: 100%; height: 100%; display: block; }
+  .header-text h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 17px; font-weight: 600;
+    color: #fff; letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .header-text p {
+    font-size: 11px; color: var(--rouge-texte);
+    font-family: 'Source Serif 4', serif;
+    font-style: italic; margin-top: 1px;
+  }
+
+  /* ── ONGLETS ── */
+  .tabs {
+    background: #141414; display: flex;
+    border-bottom: 2px solid var(--rouge);
+    position: sticky; top: 65px; z-index: 99;
+  }
+  .tab {
+    flex: 1; text-align: center; padding: 10px 4px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    color: #9a9a9a; cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px; transition: color 0.2s;
+  }
+  .tab.active { color: var(--rouge-texte); border-bottom-color: var(--rouge); }
+
+  /* ── SECTIONS ── */
+  .section { display: none; padding: 12px; }
+  .section.active { display: block; }
+
+  /* ── CARTES ÉVÉNEMENTS ── */
+  .card {
+    background: var(--gris-carte);
+    border-radius: 10px;
+    border: 1px solid var(--gris-bordure);
+    border-left: 4px solid var(--rouge);
+    margin-bottom: 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.8);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s;
+    cursor: pointer;
+  }
+  .card:active { transform: scale(0.98); }
+  .card-img { width: 100%; height: 180px; object-fit: contain; display: block; background: #000; }
+  .card-img-placeholder {
+    width: 100%; height: 180px;
+    background: linear-gradient(135deg, #2a0a0a, #120404);
+    display: flex; align-items: center; justify-content: center; font-size: 48px;
+  }
+  .card-body { padding: 12px 14px 14px; background: var(--gris-carte); }
+  .card-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .card-tag {
+    background: var(--rouge-pale); color: var(--rouge-texte);
+    border: 0.5px solid var(--rouge-bordure);
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 20px;
+  }
+  .card-date { font-size: 12px; color: #fff; font-style: normal; font-weight: 500; }
+  .card-title { font-size: 16px; font-weight: 400; color: var(--gris-texte); line-height: 1.3; margin-bottom: 4px; }
+  .card-desc {
+    font-size: 13px; color: #c4c4
